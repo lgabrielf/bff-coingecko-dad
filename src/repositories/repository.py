@@ -38,7 +38,7 @@ async def fetch_cryptocurrency_history_from_api(crypto_id: str, currency: str, s
     }
     headers = {
         "accept": "application/json",
-        "x-cg-demo-api-key": settings.coingecko_api_key
+        "x-cg-demo-api-key": settings.COINGECKO_API_KEY
     }
 
     async with httpx.AsyncClient() as client:

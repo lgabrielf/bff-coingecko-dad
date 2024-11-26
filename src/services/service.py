@@ -78,7 +78,7 @@ async def get_cryptocurrency_history(
 
     return CryptocurrencyHistory(
         id=crypto_id,
-        symbol=raw_data[0]["symbol"] if raw_data else "",
+        symbol=crypto_id.upper(),
         currency=currency,
         history=history
     )
