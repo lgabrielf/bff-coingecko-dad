@@ -1,5 +1,4 @@
 import httpx
-import datetime
 from fastapi import HTTPException
 from src.config.config import settings
 
@@ -26,13 +25,13 @@ async def fetch_cryptocurrencies_from_api(currency: str, page: int, per_page: in
     
     return response.json()
 
-async def fetch_cryptocurrency_history_from_api(vs_currency: str, crypto_id: str, start_timestamp: int, end_timestamp: int):
+async def fetch_cryptocurrency_history_from_api(crypto_id: str, currency: str, start_timestamp: int, end_timestamp: int):
     """
     Obtém o histórico de preços de uma criptomoeda específica da API CoinGecko.
     """
     url = f"{COINGECKO_BASE_URL}/coins/{crypto_id}/market_chart/range"
     params = {
-        "vs_currency": vs_currency,
+        "vs_currency": currency,
         "from": start_timestamp,
         "to": end_timestamp
 
@@ -50,7 +49,6 @@ async def fetch_cryptocurrency_history_from_api(vs_currency: str, crypto_id: str
 
     data = response.json()
 
-    # Retorne os dados no formato esperado
     return [
         {
             "date": item[0] / 1000,

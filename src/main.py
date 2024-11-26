@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.controllers.controller import router as cryptocurrencies_router
+from controllers.currency import router as cryptocurrencies_router
 
 app = FastAPI()
 

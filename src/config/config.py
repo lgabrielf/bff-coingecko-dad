@@ -4,6 +4,6 @@ class Settings(BaseSettings):
     coingecko_api_key: str
 
     class Config:
-        env_file = ".env"  # Arquivo que contém as variáveis de ambiente
+        env_file = ".env"
 
 settings = Settings()

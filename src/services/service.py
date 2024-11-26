@@ -63,15 +63,11 @@ async def get_cryptocurrency_history(
     """
     Obtém o histórico de preços de uma criptomoeda específica no intervalo de tempo fornecido.
     """
-    # Converter as datas para o formato necessário (ex: "2023-11-20")
-    # A API do CoinGecko usa timestamps (Unix timestamp), então precisamos converter as datas.
     start_timestamp = int(datetime.strptime(start_date, "%Y-%m-%d").timestamp())
     end_timestamp = int(datetime.strptime(end_date, "%Y-%m-%d").timestamp())
 
-    # Chamada para o repositório para obter os dados históricos da API
     raw_data = await fetch_cryptocurrency_history_from_api(crypto_id, currency, start_timestamp, end_timestamp)
     
-    # Organize the data into the  format
     history = [
         PriceHistoryItem(
             date=datetime.utcfromtimestamp(coin["date"]).strftime("%Y-%m-%d"),
@@ -80,7 +76,6 @@ async def get_cryptocurrency_history(
         for coin in raw_data
     ]
 
-    # Build the response 
     return CryptocurrencyHistory(
         id=crypto_id,
         symbol=raw_data[0]["symbol"] if raw_data else "",
