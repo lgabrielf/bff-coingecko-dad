@@ -10,3 +10,8 @@ from src.schemas.price_history import (
     PriceHistoryItemDTO,
     CryptocurrencyHistoryResponseDTO,
 )
+from src.schemas.user import (
+    UserCreateDTO,
+    UserDTO,
+    UserSchemaUp
+)

@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends
 from src.services.price_service import get_cryptocurrency_history
-from src.schemas import CryptocurrencyHistoryResponseDTO
+from src.schemas import CryptocurrencyHistoryResponseDTO, UserDTO
+from src.services.user_service import  get_current_user
 
 router = APIRouter()
 
@@ -18,6 +19,7 @@ async def cryptocurrency_history(
     end_date: str = Query(
         ..., description='Data de fim no formato yyyy-mm-dd'
     ),
+    usuario_logado: UserDTO = Depends(get_current_user),
 ):
     """
     Endpoint para obter o histórico de preços de uma criptomoeda específica.
