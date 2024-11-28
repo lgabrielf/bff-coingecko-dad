@@ -31,8 +31,8 @@ Para rodar este projeto, você precisa ter:
    **Clone o repositório** usando o seguinte comando:
 
    ```bash
-   git clone https://github.com/seu_usuario/bff-coingecko.git
-   cd bff-coingecko
+   git clone https://github.com/lgabrielf/bff-coingecko-dad.git
+   cd bff-coingecko-dad
    ```
 
 ## **Configuração do Ambiente**
