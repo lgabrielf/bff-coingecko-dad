@@ -87,7 +87,7 @@ requirements:
 	@poetry export -f requirements.txt --without-hashes  > requirements.txt
 	@poetry export --dev -f  requirements.txt --without-hashes  > requirements-dev.txt
 run:
-	@poetry run hypercorn -b "$(HOST):$(PORT)" wellexds.main:app --reload
+	@poetry run hypercorn -b "$(HOST):$(PORT)" src.main:app --reload
 security:
 	@poetry run pip-audit
 test:
