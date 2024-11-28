@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: coingecko_api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+      - ./README.md:/app/README.md
+      - ./poetry.lock:/app/poetry.lock
+      - ./pyproject.toml:/app/pyproject.toml
+    command: ["hypercorn", "src.main:app", "-b", "0.0.0.0:8080"]
+    networks:
+      - bff-network
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_SCHEMA}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bff-network
+
+volumes:
+  postgres_data:
+
+networks:
+  bff-network:
+    driver: bridge
