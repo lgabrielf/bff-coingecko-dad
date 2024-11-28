@@ -7,19 +7,21 @@ class Settings(BaseSettings):
     FASTAPI_DEBUG: bool = False
     FASTAPI_DESCRIPTION: str = 'Backend for Frontend (BFF) para consumir a API CoinGecko, fornecendo endpoints otimizados para listagem de criptomoedas, resumo de mercado e histórico de preços.'
     FASTAPI_TITLE: str = 'Backend for Frontend - Desafio Técnico'
-    JWT_SECRET: str = 'JZDsEmQ0XsTDH8MCMXQzvsnlNrQanGV5QM4z6j6dpFk'
     DB_USERNAME: str = 'DB_USERNAME'
     DB_PASSWORD: str = 'DB_PASSWORD'
     DB_IPADDRES: str = 'db'
     DB_PORT: str = '5432'
-    DB_SCHEMA: str = 'SCHEMA'
+    DB_SCHEMA: str = 'postgres'
     ALGORITHM: str = 'HS256'
+    
     # token válido por 1 semana (em minutos)
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7
+
     """
     import secrets 
     token: str = secrets.token_urlsafe(32)
     """
+    JWT_SECRET: str = 'JZDsEmQ0XsTDH8MCMXQzvsnlNrQanGV5QM4z6j6dpFk'
 
     @property
     def DB_URL(self) -> str:
