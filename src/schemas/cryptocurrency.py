@@ -1,12 +1,14 @@
 from pydantic import BaseModel
 from typing import List
 
-class CryptocurrencyItem(BaseModel):
+
+class CryptocurrencyItemDTO(BaseModel):
     name: str
     symbol: str
     price: float
     market_cap: int
 
-class CryptocurrencyResponse(BaseModel):
+
+class CryptocurrencyResponseDTO(BaseModel):
     current_page: int
-    cryptocurrencies: List[CryptocurrencyItem]
+    cryptocurrencies: List[CryptocurrencyItemDTO]
