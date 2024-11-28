@@ -9,6 +9,14 @@ class UserDTO(BaseModel):
 
     class Config:
         from_attributes = True
+        schema_extra = {
+            "example": {
+                "id": 1,
+                "name": "John Doe",
+                "password": "securepassword",
+                "email": "john.doe@example.com"
+            }
+        }
 
 class UserCreateDTO(UserDTO):
     password: str
