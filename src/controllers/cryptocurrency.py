@@ -8,7 +8,7 @@ router = APIRouter()
 @router.get('/cryptocurrencies', response_model=CryptocurrencyResponseDTO)
 async def list_cryptocurrencies(
     currency: str = Query('usd', description='Moeda de cotação: usd ou eur'),
-    page: int = Query(1, description='Número da página'),
+    page: int = Query(1, description='Número da página (deve ser maior ou igual a 1)'),
     per_page: int = Query(10, description='Itens por página (máximo: 250)'),
     usuario_logado: UserDTO = Depends(get_current_user)
 ):

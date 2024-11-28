@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     JWT_SECRET: str = 'JZDsEmQ0XsTDH8MCMXQzvsnlNrQanGV5QM4z6j6dpFk'
     DB_USERNAME: str = 'DB_USERNAME'
     DB_PASSWORD: str = 'DB_PASSWORD'
-    DB_IPADDRES: str = '127.0.0.1'
+    DB_IPADDRES: str = 'db'
     DB_PORT: str = '5432'
     DB_SCHEMA: str = 'SCHEMA'
     ALGORITHM: str = 'HS256'

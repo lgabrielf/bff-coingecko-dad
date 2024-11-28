@@ -9,7 +9,7 @@ class CryptocurrencyItemDTO(BaseModel):
     market_cap: int
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "name": "Bitcoin",
                 "symbol": "BTC",
@@ -24,7 +24,7 @@ class CryptocurrencyResponseDTO(BaseModel):
     cryptocurrencies: List[CryptocurrencyItemDTO]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "current_page": 1,
                 "cryptocurrencies": [

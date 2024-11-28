@@ -7,7 +7,7 @@ class PriceHistoryItemDTO(BaseModel):
     price: float
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "date": "2023-11-20",
                 "price": 64000.00
@@ -21,7 +21,7 @@ class CryptocurrencyHistoryResponseDTO(BaseModel):
     history: List[PriceHistoryItemDTO]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "id": "bitcoin",
                 "symbol": "BTC",

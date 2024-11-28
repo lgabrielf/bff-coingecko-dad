@@ -11,7 +11,7 @@ class CryptocurrencySummaryItemDTO(BaseModel):
     class Config:
         from_attributes = True
         exclude_none = True
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "name": "Bitcoin",
                 "symbol": "BTC",
@@ -28,7 +28,7 @@ class MarketSummaryResponseDTO(BaseModel):
     class Config:
         from_attributes = True
         exclude_none = True
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "top_market_cap": [
                     {"name": "Bitcoin", "symbol": "BTC", "market_cap": 1200000000000, "percentage_change_24h": 5.34},
