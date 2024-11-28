@@ -1,0 +1,1309 @@
+{
+	"info": {
+		"_postman_id": "5547dc9d-6789-4a05-b282-c2f03b1b5499",
+		"name": "Backend for Frontend - Desafio Técnico",
+		"description": "Backend for Frontend (BFF) para consumir a API CoinGecko, fornecendo endpoints otimizados para listagem de criptomoedas, resumo de mercado e histórico de preços.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23746571"
+	},
+	"item": [
+		{
+			"name": "Cryptocurrencies",
+			"item": [
+				{
+					"name": "List Cryptocurrencies",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"accessTokenUrl": "/bff/login",
+								"grant_type": "password_credentials"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bff/cryptocurrencies?currency=usd&page=1&per_page=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bff",
+								"cryptocurrencies"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "usd",
+									"description": "Moeda de cotação: usd ou eur"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Número da página (deve ser maior ou igual a 1)"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Itens por página (máximo: 250)"
+								}
+							]
+						},
+						"description": "Endpoint para listar criptomoedas paginadas e filtradas por moeda de cotação."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<token>",
+										"description": "Added as a part of security scheme: oauth2"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "//bff/cryptocurrencies?currency=usd&page=1&per_page=10",
+									"path": [
+										"",
+										"bff",
+										"cryptocurrencies"
+									],
+									"query": [
+										{
+											"key": "currency",
+											"value": "usd"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"current_page\": \"<integer>\",\n  \"cryptocurrencies\": [\n    {\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"price\": \"<number>\",\n      \"market_cap\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"price\": \"<number>\",\n      \"market_cap\": \"<integer>\"\n    }\n  ]\n}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<token>",
+										"description": "Added as a part of security scheme: oauth2"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bff/cryptocurrencies?currency=usd&page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bff",
+										"cryptocurrencies"
+									],
+									"query": [
+										{
+											"key": "currency",
+											"value": "usd"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Cryptocurrency History",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"accessTokenUrl": "/bff/login",
+								"grant_type": "password_credentials"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bff/cryptocurrencies/:id/history?currency=usd&start_date=<string>&end_date=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bff",
+								"cryptocurrencies",
+								":id",
+								"history"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "usd",
+									"description": "Moeda de cotação: usd ou eur"
+								},
+								{
+									"key": "start_date",
+									"value": "<string>",
+									"description": "(Required) Data de início no formato yyyy-mm-dd"
+								},
+								{
+									"key": "end_date",
+									"value": "<string>",
+									"description": "(Required) Data de fim no formato yyyy-mm-dd"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "<string>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Endpoint para obter o histórico de preços de uma criptomoeda específica."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<token>",
+										"description": "Added as a part of security scheme: oauth2"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "//bff/cryptocurrencies/:id/history?currency=usd&start_date=<string>&end_date=<string>",
+									"path": [
+										"",
+										"bff",
+										"cryptocurrencies",
+										":id",
+										"history"
+									],
+									"query": [
+										{
+											"key": "currency",
+											"value": "usd"
+										},
+										{
+											"key": "start_date",
+											"value": "<string>"
+										},
+										{
+											"key": "end_date",
+											"value": "<string>"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<string>\",\n  \"symbol\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"history\": [\n    {\n      \"date\": \"<string>\",\n      \"price\": \"<number>\"\n    },\n    {\n      \"date\": \"<string>\",\n      \"price\": \"<number>\"\n    }\n  ]\n}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<token>",
+										"description": "Added as a part of security scheme: oauth2"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bff/cryptocurrencies/:id/history?currency=usd&start_date=<string>&end_date=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bff",
+										"cryptocurrencies",
+										":id",
+										"history"
+									],
+									"query": [
+										{
+											"key": "currency",
+											"value": "usd"
+										},
+										{
+											"key": "start_date",
+											"value": "<string>"
+										},
+										{
+											"key": "end_date",
+											"value": "<string>"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Market Summary",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"accessTokenUrl": "/bff/login",
+								"grant_type": "password_credentials"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bff/market/summary?currency=usd",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bff",
+								"market",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "usd"
+								}
+							]
+						},
+						"description": "Endpoint para obter o resumo do mercado de criptomoedas."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<token>",
+										"description": "Added as a part of security scheme: oauth2"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "//bff/market/summary?currency=usd",
+									"path": [
+										"",
+										"bff",
+										"market",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "currency",
+											"value": "usd"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"top_market_cap\": [\n    {\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"market_cap\": \"<integer>\",\n      \"percentage_change_24h\": \"<number>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"market_cap\": \"<integer>\",\n      \"percentage_change_24h\": \"<number>\"\n    }\n  ],\n  \"top_gainer\": {\n    \"name\": \"<string>\",\n    \"symbol\": \"<string>\",\n    \"market_cap\": \"<integer>\",\n    \"percentage_change_24h\": \"<number>\"\n  },\n  \"top_loser\": {\n    \"name\": \"<string>\",\n    \"symbol\": \"<string>\",\n    \"market_cap\": \"<integer>\",\n    \"percentage_change_24h\": \"<number>\"\n  }\n}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<token>",
+										"description": "Added as a part of security scheme: oauth2"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bff/market/summary?currency=usd",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bff",
+										"market",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "currency",
+											"value": "usd"
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				}
+			],
+			"description": "**Esta coleção contém endpoints relacionados à consulta e análise de criptomoedas, incluindo listagem de moedas, resumo do mercado e histórico de preços. As APIs permitem obter dados paginados, comparar a valorização e desvalorização das moedas, e acessar o histórico de preços de uma criptomoeda específica.**"
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{name}}",
+									"description": "(Required) "
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"description": "(Required) "
+								},
+								{
+									"key": "grant_type",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "client_id",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "client_secret",
+									"value": "<string>",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{baseUrl}}/bff/login"
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "<string>",
+											"description": "(Required) "
+										},
+										{
+											"key": "password",
+											"value": "<string>",
+											"description": "(Required) "
+										},
+										{
+											"key": "grant_type",
+											"value": "<string>"
+										},
+										{
+											"key": "scope",
+											"value": ""
+										},
+										{
+											"key": "client_id",
+											"value": "<string>"
+										},
+										{
+											"key": "client_secret",
+											"value": "<string>"
+										}
+									]
+								},
+								"url": "//bff/login"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "<string>",
+											"description": "(Required) "
+										},
+										{
+											"key": "password",
+											"value": "<string>",
+											"description": "(Required) "
+										},
+										{
+											"key": "grant_type",
+											"value": "<string>"
+										},
+										{
+											"key": "scope",
+											"value": ""
+										},
+										{
+											"key": "client_id",
+											"value": "<string>"
+										},
+										{
+											"key": "client_secret",
+											"value": "<string>"
+										}
+									]
+								},
+								"url": "http://127.0.0.1:8080/bff/login"
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Post User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "name",
+								"value": "{{name}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "password",
+								"value": "{{password}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"{{name}}\",\n  \"password\": \"{{password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bff/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bff",
+								"signup"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "//bff/signup"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/bff/signup"
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Logado",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"password": "{{password}}",
+								"username": "{{name}}",
+								"accessTokenUrl": "{{baseUrl}}/bff/login",
+								"grant_type": "password_credentials"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": "{{baseUrl}}/bff/logado"
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<token>",
+										"description": "Added as a part of security scheme: oauth2"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": "//bff/logado"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Users",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"password": "{{password}}",
+								"username": "{{name}}",
+								"accessTokenUrl": "{{baseUrl}}/bff/login",
+								"grant_type": "password_credentials",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": "{{baseUrl}}/bff/"
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": "//bff/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"name\": \"<string>\",\n    \"password\": \"<string>\",\n    \"id\": \"<integer>\"\n  },\n  {\n    \"name\": \"<string>\",\n    \"password\": \"<string>\",\n    \"id\": \"<integer>\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"password": "{{password}}",
+								"username": "{{name}}",
+								"accessTokenUrl": "{{baseUrl}}/bff/login",
+								"grant_type": "password_credentials",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bff/:user_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bff",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "<integer>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "//bff/:user_id",
+									"path": [
+										"",
+										"bff",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "<integer>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bff/:user_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bff",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "<integer>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Put User",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"password": "{{password}}",
+								"username": "{{name}}",
+								"accessTokenUrl": "{{baseUrl}}/bff/login",
+								"grant_type": "password_credentials",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bff/:user_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bff",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "<integer>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "//bff/:user_id",
+									"path": [
+										"",
+										"bff",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "<integer>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bff/:user_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bff",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "<integer>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"password": "{{password}}",
+								"username": "{{name}}",
+								"accessTokenUrl": "{{baseUrl}}/bff/login",
+								"grant_type": "password_credentials",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bff/:user_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bff",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "<integer>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "//bff/:user_id",
+									"path": [
+										"",
+										"bff",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "<integer>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bff/:user_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bff",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "<integer>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				}
+			],
+			"description": "**Esta coleção serviço oferece funcionalidades completas para o gerenciamento de usuários, incluindo registro (signup), login, recuperação e atualização de dados do usuário, e exclusão de usuários. Ele é baseado em autenticação usando OAuth2 com password hashing, além de garantir que a manipulação dos dados seja segura e eficiente.**"
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": {
+			"password": "{{password}}",
+			"username": "{{name}}",
+			"addTokenTo": "header",
+			"client_authentication": "header",
+			"grant_type": "password_credentials",
+			"refreshRequestParams": [],
+			"tokenRequestParams": [],
+			"authRequestParams": [],
+			"challengeAlgorithm": "S256",
+			"accessTokenUrl": "{{baseUrl}}/bff/login"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8080",
+			"type": "string"
+		},
+		{
+			"key": "name",
+			"value": "/",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "/",
+			"type": "string"
+		}
+	]
+}
