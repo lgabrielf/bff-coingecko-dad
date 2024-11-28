@@ -22,18 +22,31 @@ def get_logado(logged_user: UserModel = Depends(get_current_user)):
 # POST / SignUP
 @router.post('/signup', status_code=status.HTTP_201_CREATED, response_model=UserDTO)
 async def post_user(user: UserCreateDTO, db: AsyncSession = Depends(get_session)):
+    async with db as session:
+        query = select(UserModel).filter(UserModel.name == user.name)
+        result = await session.execute(query)
+        existing_user = result.scalars().first()
+
+        if existing_user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Username is already in use."
+            )
+
     new_user: UserModel = UserModel(name=user.name, password=generate_hash_password(user.password))
     async with db as session:
         try:
             session.add(new_user)
             await session.commit()
-
             return new_user
         except IntegrityError:
-            raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail='There is already a user with that name registered.')
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Error creating user."
+            )
 
 @router.get('/', response_model=List[UserDTO])
-async def get_users(db: AsyncSession = Depends(get_session)):
+async def get_users(db: AsyncSession = Depends(get_session), logged_user: UserModel = Depends(get_current_user)):
     async with db as session:
         query = select(UserModel)
         result = await session.execute(query)
@@ -42,7 +55,7 @@ async def get_users(db: AsyncSession = Depends(get_session)):
         return users
 
 @router.get('/{user_id}', response_model=UserDTO, status_code=status.HTTP_200_OK)
-async def get_user(user_id: int, db: AsyncSession = Depends(get_session)):
+async def get_user(user_id: int, db: AsyncSession = Depends(get_session), logged_user: UserModel = Depends(get_current_user)):
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
@@ -55,7 +68,7 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_session)):
 
 # PUT user
 @router.put('/{user_id}', response_model=UserDTO, status_code=status.HTTP_202_ACCEPTED)
-async def put_user(user_id: int, user: UserSchemaUp,  db: AsyncSession = Depends(get_session)):
+async def put_user(user_id: int, user: UserSchemaUp,  db: AsyncSession = Depends(get_session), logged_user: UserModel = Depends(get_current_user)):
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
@@ -74,7 +87,7 @@ async def put_user(user_id: int, user: UserSchemaUp,  db: AsyncSession = Depends
 
 # DELETE user
 @router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_user(user_id: int, db: AsyncSession = Depends(get_session)):
+async def delete_user(user_id: int, db: AsyncSession = Depends(get_session), logged_user: UserModel = Depends(get_current_user)):
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
