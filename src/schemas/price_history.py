@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List
 
 
@@ -6,7 +6,7 @@ class PriceHistoryItemDTO(BaseModel):
     date: str
     price: float
 
-    class Config:
+    class ConfigDict:
         json_schema_extra = {
             "example": {
                 "date": "2023-11-20",
@@ -20,7 +20,7 @@ class CryptocurrencyHistoryResponseDTO(BaseModel):
     currency: str
     history: List[PriceHistoryItemDTO]
 
-    class Config:
+    class ConfigDict:
         json_schema_extra = {
             "example": {
                 "id": "bitcoin",

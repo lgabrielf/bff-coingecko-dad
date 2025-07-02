@@ -22,6 +22,7 @@ def get_logado(logged_user: UserModel = Depends(get_current_user)):
 # POST / SignUP
 @router.post('/signup', status_code=status.HTTP_201_CREATED, response_model=UserDTO)
 async def post_user(user: UserCreateDTO, db: AsyncSession = Depends(get_session)):
+    # Ignore any role information from the input, only allow name and password
     async with db as session:
         query = select(UserModel).filter(UserModel.name == user.name)
         result = await session.execute(query)
@@ -33,7 +34,11 @@ async def post_user(user: UserCreateDTO, db: AsyncSession = Depends(get_session)
                 detail="Username is already in use."
             )
 
-    new_user: UserModel = UserModel(name=user.name, password=generate_hash_password(user.password))
+    # Ensure role is not set from the input
+    new_user: UserModel = UserModel(
+        name=user.name,
+        password=generate_hash_password(user.password)
+    )
     async with db as session:
         try:
             session.add(new_user)
@@ -68,7 +73,18 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_session), logged
 
 # PUT user
 @router.put('/{user_id}', response_model=UserDTO, status_code=status.HTTP_202_ACCEPTED)
-async def put_user(user_id: int, user: UserSchemaUp,  db: AsyncSession = Depends(get_session), logged_user: UserModel = Depends(get_current_user)):
+async def put_user(
+    user_id: int,
+    user: UserSchemaUp,
+    db: AsyncSession = Depends(get_session),
+    logged_user: UserModel = Depends(get_current_user)
+):
+    if getattr(logged_user, "role", None) != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have permission to update users."
+        )
+
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
@@ -109,4 +125,4 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
     if not user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Incorrect access data.')
         
-    return JSONResponse(content={"access_token": criar_token_acesso(sub=user.id), "token_type": "bearer"}, status_code=status.HTTP_200_OK)
+    return JSONResponse(content={"access_token": criar_token_acesso(sub=user), "token_type": "bearer"}, status_code=status.HTTP_200_OK)
