@@ -28,19 +28,3 @@ class UserSchemaUp(UserDTO):
     role: Optional[str]
 
     model_config = ConfigDict(from_attributes=True)
-
-class UserSignupResponseDTO(BaseModel):
-    id: Optional[int] = None
-    name: str
-    role: Optional[str] = None
-
-    model_config = ConfigDict(from_attributes=True)
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "id": 1,
-                "name": "John Doe",
-                "role": "user"
-            }
-        }
