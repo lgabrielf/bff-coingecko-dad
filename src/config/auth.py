@@ -39,14 +39,14 @@ def _criar_token(tipo_token: str, tempo_vida: timedelta, sub: str) -> str:
     # tempo de expiração do token
     expira = datetime.now(tz=rn) + tempo_vida
 
-    payload['type'] = tipo_token
-
-    payload['exp'] = expira
-    # iat: gerado em
-    payload['iat'] = datetime.now(tz=rn)
-    # sub: pode ser id, email, nome, qualquer coisa que identifique o usuário
-    payload['sub'] = str(sub)
-
+    payload = {
+        'type': tipo_token,
+        'exp': expira,
+        'iat': datetime.now(tz=rn),
+        'sub': str(getattr(sub, 'id', sub)),
+        'role': getattr(sub, 'role', None)
+    }
+    
     return jwt.encode(
         payload, settings.JWT_SECRET, algorithm=settings.ALGORITHM
     )

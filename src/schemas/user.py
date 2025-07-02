@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 class UserDTO(BaseModel):
@@ -7,7 +7,7 @@ class UserDTO(BaseModel):
     name: str
     password: str
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
         json_schema_extra = {
             "example": {
@@ -18,13 +18,29 @@ class UserDTO(BaseModel):
 
 class UserCreateDTO(UserDTO):
     password: str
+    role: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class UserSchemaUp(UserDTO):
     name: Optional[str]
     password: Optional[str]
+    role: Optional[str]
+
+    model_config = ConfigDict(from_attributes=True)
+
+class UserSignupResponseDTO(BaseModel):
+    id: Optional[int] = None
+    name: str
+    role: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True)
 
     class Config:
-        from_attributes = True
+        json_schema_extra = {
+            "example": {
+                "id": 1,
+                "name": "John Doe",
+                "role": "user"
+            }
+        }
