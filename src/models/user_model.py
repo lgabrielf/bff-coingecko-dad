@@ -7,7 +7,8 @@ Base = declarative_base(metadata=metadata)
 
 class UserModel(Base):
     __tablename__ = 'user'
-    
+    __table_args__ = {"schema": settings.DB_SCHEMA}
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(256), nullable=True)
     password = Column(String(256), nullable=True)
