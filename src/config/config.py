@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     FASTAPI_TITLE: str = 'Backend for Frontend - Desafio Técnico'
     DB_USERNAME: str = 'DB_USERNAME'
     DB_PASSWORD: str = 'DB_PASSWORD'
-    DB_IPADDRES: str = '127.0.0.1'
+    DB_IPADDRES: str = 'db'
     DB_PORT: str = '5432'
     DB_SCHEMA: str = 'postgres'
     ALGORITHM: str = 'HS256'

@@ -53,11 +53,13 @@ async def create_first_admin(conn: AsyncSession):
         print(f"Admin user '{settings.ADMIN_USERNAME}' já existe.")
 
 async def create_tables():
+    async with Session() as session:
+        await create_schema(session, settings.DB_SCHEMA)
+
     async with engine.begin() as conn:
-        await create_schema(conn, settings.DB_SCHEMA)
         await conn.run_sync(Base.metadata.create_all)
         await create_first_admin(conn)
-        print("Tabelas criadas com sucesso.")
 
+        print("Tabelas criadas com sucesso.")
 if __name__ == "__main__":
     asyncio.run(create_tables())

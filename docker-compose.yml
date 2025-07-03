@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   app:
     build:
@@ -8,6 +6,11 @@ services:
     container_name: coingecko_api
     ports:
       - "8080:8080"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "root"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     depends_on:
       - db
     env_file:
