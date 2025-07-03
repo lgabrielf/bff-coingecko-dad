@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List, Optional
 
 
@@ -8,7 +8,7 @@ class CryptocurrencySummaryItemDTO(BaseModel):
     market_cap: Optional[int] = None
     percentage_change_24h: Optional[float] = None
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
         exclude_none = True
         json_schema_extra = {
@@ -25,7 +25,7 @@ class MarketSummaryResponseDTO(BaseModel):
     top_gainer: CryptocurrencySummaryItemDTO
     top_loser: CryptocurrencySummaryItemDTO
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
         exclude_none = True
         json_schema_extra = {

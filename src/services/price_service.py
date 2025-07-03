@@ -1,7 +1,7 @@
 from src.repositories.coingecko_repository import (
     fetch_cryptocurrency_history_from_api,
 )
-from datetime import datetime
+from datetime import datetime, timezone
 from src.schemas import CryptocurrencyHistoryResponseDTO, PriceHistoryItemDTO
 
 
@@ -22,7 +22,7 @@ async def get_cryptocurrency_history(
 
     history = [
         PriceHistoryItemDTO(
-            date=datetime.utcfromtimestamp(coin['date']).strftime('%Y-%m-%d'),
+            date=datetime.fromtimestamp(coin['date'], timezone.utc).strftime('%Y-%m-%d'),
             price=coin['price'],
         )
         for coin in raw_data

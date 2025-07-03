@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List
 
 
@@ -8,7 +8,7 @@ class CryptocurrencyItemDTO(BaseModel):
     price: float
     market_cap: int
 
-    class Config:
+    class ConfigDict:
         json_schema_extra = {
             "example": {
                 "name": "Bitcoin",
@@ -23,7 +23,7 @@ class CryptocurrencyResponseDTO(BaseModel):
     current_page: int
     cryptocurrencies: List[CryptocurrencyItemDTO]
 
-    class Config:
+    class ConfigDict:
         json_schema_extra = {
             "example": {
                 "current_page": 1,

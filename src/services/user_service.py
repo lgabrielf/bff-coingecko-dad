@@ -45,17 +45,17 @@ async def get_current_user(db: Session = Depends(get_session), token: str = Depe
             algorithms=[settings.ALGORITHM], 
             options={"verify_aud": False}
         )
-        username: str = payload.get("sub")
-
-        if username is None:
+        user_id = payload.get("sub")
+        if user_id is None:
             raise credential_exception
-        
-        token_data: TokenData = TokenData(username=username)
+
+        # (opcional) imprimir role para debug
+        print(f"[DEBUG] role no token: {payload.get('role')}")
     except JWTError: 
         #se não conseguir decodificar
         raise credential_exception
     async with db as session:
-        query = select(UserModel).filter(UserModel.id == int(token_data.username))
+        query = select(UserModel).filter(UserModel.id == int(user_id))
         result = await session.execute(query)
         user: UserModel = result.scalars().unique().one_or_none()
 
