@@ -6,27 +6,33 @@ from src.schemas.favorite import FavoriteCreateDTO
 from src.models.user_model import UserModel
 from src.models.favorite_model import FavoriteModel
 
-@pytest.mark.asyncio
-async def test_create_favorite_success():
+@pytest.fixture
+def mock_async_session():
     mock_db = AsyncMock()
+    mock_db.add = MagicMock()
+    mock_db.delete = MagicMock()
+    mock_db.commit = AsyncMock()
+    mock_db.refresh = AsyncMock()
+    return mock_db
+
+@pytest.mark.asyncio
+async def test_create_favorite_success(mock_async_session):
     mock_user = UserModel(id=1, name="testuser")
     favorite_data = FavoriteCreateDTO(coin_id="bitcoin")
 
-    # Mock the database to return None, indicating the favorite doesn't exist
     mock_result = MagicMock()
     mock_result.scalars.return_value.first.return_value = None
-    mock_db.execute.return_value = mock_result
+    mock_async_session.execute.return_value = mock_result
 
-    # The service creates and returns a FavoriteModel instance.
-    # We assume the db.refresh call populates it correctly.
-    result = await favorite_service.create_favorite(db=mock_db, favorite=favorite_data, user=mock_user)
+    result = await favorite_service.create_favorite(
+        db=mock_async_session, favorite=favorite_data, user=mock_user
+    )
 
-    # In a real scenario, db.refresh would populate the ID. We assert the parts we know.
-    assert getattr(result, 'coin_id') == "bitcoin"
-    assert getattr(result, 'user_id') == 1
-    mock_db.add.assert_called_once()
-    mock_db.commit.assert_awaited_once()
-    mock_db.refresh.assert_awaited_once()
+    assert getattr(result, "coin_id", None) == "bitcoin"
+    assert getattr(result, "user_id", None) == 1
+    mock_async_session.add.assert_called_once()
+    mock_async_session.commit.assert_awaited_once()
+    mock_async_session.refresh.assert_awaited_once()
 
 @pytest.mark.asyncio
 async def test_create_favorite_conflict():
