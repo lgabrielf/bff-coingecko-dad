@@ -106,16 +106,25 @@ async def put_user(
 
 # DELETE user
 @router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_user(user_id: int, db: AsyncSession = Depends(get_session), logged_user: UserModel = Depends(get_current_user)):
+async def delete_user(
+    user_id: int,
+    db: AsyncSession = Depends(get_session),
+    logged_user: UserModel = Depends(get_current_user)
+):
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
-        user_del: UserDTO = result.scalars().unique().one_or_none()
+        user_del: UserModel = result.scalars().unique().one_or_none()
 
         if user_del:
+            if getattr(logged_user, "role", None) != "admin" and logged_user.id != user_id:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="You can only delete your own user."
+                )
+
             await session.delete(user_del)
             await session.commit()
-
             return Response(status_code=status.HTTP_204_NO_CONTENT)
         else:
             raise HTTPException(detail='User no found', status_code=status.HTTP_404_NOT_FOUND)
