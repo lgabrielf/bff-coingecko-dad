@@ -79,22 +79,25 @@ async def put_user(
     db: AsyncSession = Depends(get_session),
     logged_user: UserModel = Depends(get_current_user)
 ):
-    if getattr(logged_user, "role", None) != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You do not have permission to update users."
-        )
-
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
-        user_up: UserDTO = result.scalars().unique().one_or_none()
+        user_up: UserModel = result.scalars().unique().one_or_none()
 
         if user_up:
+            if getattr(logged_user, "role", None) != "admin" and logged_user.id != user_id:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="You can only edit your own user."
+                )
+
             if user.name:
                 user_up.name = user.name
             if user.password:
                 user_up.password = generate_hash_password(user.password)
+
+            if getattr(logged_user, "role", None) == "admin" and user.role is not None:
+                user_up.role = user.role
 
             await session.commit()
             return user_up
