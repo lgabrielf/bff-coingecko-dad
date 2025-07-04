@@ -1,4 +1,4 @@
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import Integer, String, Column, MetaData
 from src.config.config import settings
 
@@ -13,3 +13,5 @@ class UserModel(Base):
     name = Column(String(256), nullable=True)
     password = Column(String(256), nullable=True)
     role = Column(String(50), nullable=True)
+
+    favorites = relationship("FavoriteModel", back_populates="user", cascade="all, delete-orphan")

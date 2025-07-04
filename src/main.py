@@ -3,6 +3,7 @@ from src.controllers import cryptocurrency
 from src.controllers import market_summary
 from src.controllers import price_history
 from src.controllers import user
+from src.controllers import favorite
 from src.config.config import settings
 from src.config.database import create_tables
 
@@ -37,5 +38,11 @@ app.include_router(
 app.include_router(
     user.router,
     tags=['Authentication'],
+    prefix=f'/{settings.FASTAPI_PREFIX}',
+)
+
+app.include_router(
+    favorite.router,
+    tags=['Favorites'],
     prefix=f'/{settings.FASTAPI_PREFIX}',
 )
