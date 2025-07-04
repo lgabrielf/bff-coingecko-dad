@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     FASTAPI_PREFIX: str = 'bff'
     FASTAPI_DEBUG: bool = False
     FASTAPI_DESCRIPTION: str = 'Backend for Frontend (BFF) para consumir a API CoinGecko, fornecendo endpoints otimizados para listagem de criptomoedas, resumo de mercado e histórico de preços.'
-    FASTAPI_TITLE: str = 'Backend for Frontend - Desafio Técnico'
+    FASTAPI_TITLE: str = 'Gecko Tracker'
     DB_USERNAME: str = 'DB_USERNAME'
     DB_PASSWORD: str = 'DB_PASSWORD'
     DB_IPADDRES: str = 'db'

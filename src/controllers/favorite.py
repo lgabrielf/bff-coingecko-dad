@@ -16,7 +16,7 @@ async def add_favorite(
 ):
     return await favorite_service.create_favorite(db=db, favorite=favorite, user=current_user)
 
-@router.get("/favorites", response_model=List[FavoriteResponseDTO])
+@router.get("/favorites/all", response_model=List[FavoriteResponseDTO])
 async def list_favorites(
     db: AsyncSession = Depends(get_session),
     current_user: UserModel = Depends(get_current_user)

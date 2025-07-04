@@ -1,4 +1,4 @@
-from typing import Generator, Optional, AsyncGenerator
+from typing import Generator, Optional
 import logging
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -19,8 +19,8 @@ logger = logging.getLogger(__name__)
 class TokenData(BaseModel):
     username: Optional[str] = None
 
-async def get_session() -> AsyncGenerator:
-    session: AsyncSession = Session
+async def get_session() -> Generator:
+    session: AsyncSession = Session()
 
     try:
         logger.info("Conexão com o banco de dados estabelecida com sucesso.")
@@ -30,7 +30,7 @@ async def get_session() -> AsyncGenerator:
         await session.close() #depois de fazer uso, eh encerrada a conexão
 
 
-async def get_current_user(db: AsyncSession = Depends(get_session), token: str = Depends(oauth2_schema)) -> UserModel:
+async def get_current_user(db: Session = Depends(get_session), token: str = Depends(oauth2_schema)) -> UserModel:
    # caso o usuário não autentique, retorne essa variável a seguir
     credential_exception: HTTPException = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED, 
