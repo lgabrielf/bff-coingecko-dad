@@ -6,6 +6,7 @@ class UserDTO(BaseModel):
     id: Optional[int] = None
     name: str
     password: str
+    role: Optional[str] = None
 
     class ConfigDict:
         from_attributes = True
